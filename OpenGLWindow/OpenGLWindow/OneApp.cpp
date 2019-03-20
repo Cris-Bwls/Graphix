@@ -30,19 +30,19 @@ bool OneApp::StartUp()
 
 
 	glfwWindowHint(GLFW_RESIZABLE, !m_bFullScreen);
-	m_window = glfwCreateWindow(m_nWidth, m_nHeight, m_csName, nullptr, nullptr);
+	m_Window = glfwCreateWindow(m_nWidth, m_nHeight, m_csName, nullptr, nullptr);
 
-	if (m_window == nullptr)
+	if (m_Window == nullptr)
 	{
 		glfwTerminate();
 		return false;
 	}
 
-	glfwMakeContextCurrent(m_window);
+	glfwMakeContextCurrent(m_Window);
 
 	if (ogl_LoadFunctions() == ogl_LOAD_FAILED)
 	{
-		glfwDestroyWindow(m_window);
+		glfwDestroyWindow(m_Window);
 		glfwTerminate();
 		return false;
 	}
@@ -51,13 +51,31 @@ bool OneApp::StartUp()
 	auto minor = ogl_GetMinorVersion();
 	printf("GL: %i.%i\n", major, minor);
 
-	Gizmos::create(255U, 255U, 255U, 255U);
+	Gizmos::create(10000U, 10000U, 10000U, 10000U);
 
-	m_cam = new FreeCam();
-	m_cam->SetPosition(vec3(0));
-	m_cam->SetLookAt(vec3(10, 10, 10), vec3(0, 1, 0));
-	m_cam->MakePerspective(glm::pi<float>() * 0.25f,
+	m_Cam = new FreeCam();
+	m_Cam->SetPosition(vec3(0));
+	m_Cam->SetLookAt(vec3(10, 10, 10), vec3(0, 1, 0));
+	m_Cam->MakePerspective(glm::pi<float>() * 0.25f,
 		16 / 9.0f, 0.1f, 1000.0f);
+
+	m_Shader.loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/simple.vert");
+	m_Shader.loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/simple.frag");
+
+	if (!(m_Shader.link()))
+	{
+		printf("Shader Error: %s\n", m_Shader.getLastError());
+		return false;
+	}
+
+	m_QuadMesh.InitialiseQuad();
+	m_QuadTransform =
+	{
+		10,0,0,0,
+		0,10,0,0,
+		0,0,10,0,
+		0,0,0,1
+	};
 
 	return true;
 }
@@ -65,13 +83,13 @@ bool OneApp::StartUp()
 bool OneApp::Update()
 {
 
-	m_bRunning = (glfwWindowShouldClose(m_window) == false &&
-		glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS);
+	m_bRunning = (glfwWindowShouldClose(m_Window) == false &&
+		glfwGetKey(m_Window, GLFW_KEY_ESCAPE) != GLFW_PRESS);
 
 
 	// our game logic and update code goes here!
 	// so does our render code!
-	m_cam->Update(0);
+	m_Cam->Update(0);
 
 	return true;
 }
@@ -100,16 +118,21 @@ bool OneApp::Draw()
 			i == 10 ? white : black);
 	}
 
-	Gizmos::draw(m_cam->GetProjectionView());
+	m_Shader.bind();
+	m_Shader.bindUniform("ProjectionViewModel", m_Cam->GetProjectionView() * m_QuadTransform);
 
-	glfwSwapBuffers(m_window);
+	m_QuadMesh.Draw();
+
+	Gizmos::draw(m_Cam->GetProjectionView());
+
+	glfwSwapBuffers(m_Window);
 	glfwPollEvents();
 	return true;
 }
 
 bool OneApp::ShutDown()
 {
-	delete m_cam;
+	delete m_Cam;
 	Gizmos::destroy();
 	glfwTerminate();
 	return true;

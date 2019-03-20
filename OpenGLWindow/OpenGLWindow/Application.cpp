@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Input.h"
 
 
 
@@ -21,6 +22,8 @@ bool Application::Run(char const* csName, int nWidth, int nHeight, bool bFullScr
 	if (!StartUp())
 		return false;
 
+	Input::create();
+
 	while (m_bRunning)
 	{
 		if (!Update())
@@ -28,6 +31,8 @@ bool Application::Run(char const* csName, int nWidth, int nHeight, bool bFullScr
 		if (!Draw())
 			return false;
 	}
+
+	Input::destroy();
 
 	if (!ShutDown())
 		return false;

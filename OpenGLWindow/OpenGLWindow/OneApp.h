@@ -1,5 +1,7 @@
 #pragma once
 #include "Application.h"
+#include "Shader.h"
+#include "Mesh.h"
 
 #include "gl_core_4_4.h"
 #include <GLFW/glfw3.h>
@@ -19,7 +21,11 @@ public:
 	bool ShutDown();
 
 private:
-	FreeCam* m_cam;
-	GLFWwindow* m_window;
+	FreeCam* m_Cam;
+	GLFWwindow* m_Window;
+
+	ShaderProgram m_Shader;
+	Mesh m_QuadMesh;
+	glm::mat4 m_QuadTransform;
 };
 
