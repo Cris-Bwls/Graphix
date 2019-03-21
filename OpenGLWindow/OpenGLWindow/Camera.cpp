@@ -31,7 +31,7 @@ void Camera::UpdateProjectionView()
 
 void Camera::SetLookAt(vec3 const & to, vec3 const & up)
 {
-	vec3 pos = { m_Transform[3].x, m_Transform[3].y, m_Transform[3].z };
+	vec3 pos = m_Transform[3];
 	m_View = glm::lookAt(to, pos, up);
 	m_Transform = glm::inverse(m_View);
 }
@@ -39,5 +39,11 @@ void Camera::SetLookAt(vec3 const & to, vec3 const & up)
 void Camera::SetPosition(vec3 const & pos)
 {
 	m_Transform[3] = { pos, 1 };
+	m_View = glm::inverse(m_Transform);
+}
+
+void Camera::Rotate(float fAngle, vec3 const & axis)
+{
+	m_Transform = glm::rotate(m_Transform, fAngle, axis);
 	m_View = glm::inverse(m_Transform);
 }

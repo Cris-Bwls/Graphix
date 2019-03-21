@@ -8,5 +8,11 @@ public:
 	~FreeCam();
 
 	void Update(float fDeltaTime);
+
+private:
+
+	int mouseX;
+	int mouseY;
+	double scroll;
 };
 

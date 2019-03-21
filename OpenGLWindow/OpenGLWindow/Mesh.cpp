@@ -40,6 +40,16 @@ void Mesh::InitialiseQuad()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
+	verts[0].texCoord = { 0, 1 }; // bottom left
+	verts[1].texCoord = { 1, 1 }; // bottom right
+	verts[2].texCoord = { 0, 0 }; // top left
+	verts[3].texCoord = { 0, 0 }; // top left
+	verts[4].texCoord = { 1, 1 }; // bottom right
+	verts[5].texCoord = { 1, 0 }; // top right
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)32);
+
 	// Unbind buffers
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

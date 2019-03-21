@@ -22,20 +22,37 @@ bool Application::Run(char const* csName, int nWidth, int nHeight, bool bFullScr
 	if (!StartUp())
 		return false;
 
-	Input::create();
 
 	while (m_bRunning)
 	{
+		Input::getInstance()->clearStatus();
+
 		if (!Update())
 			return false;
+
+
 		if (!Draw())
 			return false;
 	}
 
-	Input::destroy();
 
 	if (!ShutDown())
 		return false;
 
 	return true;
+}
+
+void Application::InputCreate()
+{
+	Input::create();
+}
+
+void Application::InputRefresh()
+{
+	Input::getInstance()->clearStatus();
+}
+
+void Application::InputDestroy()
+{
+	Input::destroy();
 }

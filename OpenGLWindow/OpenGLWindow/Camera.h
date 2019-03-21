@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+using glm::vec2;
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
@@ -20,6 +21,7 @@ public:
 	void UpdateProjectionView();
 	void SetLookAt(vec3 const& to, vec3 const& up);
 	void SetPosition(vec3 const& pos);
+	void Rotate(float fAngle, vec3 const& axis);
 
 	inline mat4 GetTransform() const& { return m_Transform; };
 	inline mat4 GetView() const& { return m_View; };
@@ -28,6 +30,8 @@ public:
 	inline bool GetIsPerspective() const { return m_bIsPerspective; };
 
 protected:
+	vec3 m_RotTo;
+
 	mat4 m_Transform;
 	mat4 m_View;
 	mat4 m_Projection;

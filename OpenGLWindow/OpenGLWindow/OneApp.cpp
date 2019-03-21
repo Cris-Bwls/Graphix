@@ -53,14 +53,16 @@ bool OneApp::StartUp()
 
 	Gizmos::create(10000U, 10000U, 10000U, 10000U);
 
+	InputCreate();
+
 	m_Cam = new FreeCam();
 	m_Cam->SetPosition(vec3(0));
 	m_Cam->SetLookAt(vec3(10, 10, 10), vec3(0, 1, 0));
 	m_Cam->MakePerspective(glm::pi<float>() * 0.25f,
 		16 / 9.0f, 0.1f, 1000.0f);
 
-	m_Shader.loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/simple.vert");
-	m_Shader.loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/simple.frag");
+	m_Shader.loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/textured.vert");
+	m_Shader.loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/textured.frag");
 
 	if (!(m_Shader.link()))
 	{
@@ -68,20 +70,33 @@ bool OneApp::StartUp()
 		return false;
 	}
 
-	m_QuadMesh.InitialiseQuad();
+	//m_QuadMesh.InitialiseQuad();
 	m_QuadTransform =
 	{
-		10,0,0,0,
-		0,10,0,0,
-		0,0,10,0,
+		0.5,0,0,0,
+		0,0.5,0,0,
+		0,0,0.5,0,
 		0,0,0,1
 	};
 
+	if (!m_BunnyMesh.load("./soulspear/soulspear.obj", true, true))
+		return false;
+
+	m_BunnyTransform = m_QuadTransform;
+
+
+	prevTime = glfwGetTime();
 	return true;
 }
 
 bool OneApp::Update()
 {
+	InputRefresh();
+	glfwPollEvents();
+
+	currTime = glfwGetTime();
+	double deltaTime = currTime - prevTime;
+	prevTime = currTime;
 
 	m_bRunning = (glfwWindowShouldClose(m_Window) == false &&
 		glfwGetKey(m_Window, GLFW_KEY_ESCAPE) != GLFW_PRESS);
@@ -89,7 +104,7 @@ bool OneApp::Update()
 
 	// our game logic and update code goes here!
 	// so does our render code!
-	m_Cam->Update(0);
+	m_Cam->Update(deltaTime);
 
 	return true;
 }
@@ -121,7 +136,8 @@ bool OneApp::Draw()
 	m_Shader.bind();
 	m_Shader.bindUniform("ProjectionViewModel", m_Cam->GetProjectionView() * m_QuadTransform);
 
-	m_QuadMesh.Draw();
+	//m_QuadMesh.Draw();
+	m_BunnyMesh.draw();
 
 	Gizmos::draw(m_Cam->GetProjectionView());
 
@@ -133,6 +149,7 @@ bool OneApp::Draw()
 bool OneApp::ShutDown()
 {
 	delete m_Cam;
+	InputDestroy();
 	Gizmos::destroy();
 	glfwTerminate();
 	return true;

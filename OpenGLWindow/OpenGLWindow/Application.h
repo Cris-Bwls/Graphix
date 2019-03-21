@@ -17,6 +17,10 @@ public:
 	inline char const* GetName() { return m_csName; };
 
 protected:
+	void InputCreate();
+	void InputRefresh();
+	void InputDestroy();
+
 	const char* m_csName;
 	int m_nHeight;
 	int m_nWidth;
