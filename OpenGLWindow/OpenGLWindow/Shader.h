@@ -54,7 +54,7 @@ public:
 	ShaderProgram() : m_program(0), m_lastError(nullptr) {
 		m_shaders[0] = m_shaders[1] = m_shaders[2] = m_shaders[3] = m_shaders[4] = 0;
 	}
-	~ShaderProgram();
+	virtual ~ShaderProgram();
 
 	bool loadShader(unsigned int stage, const char* filename);
 	bool createShader(unsigned int stage, const char* string);

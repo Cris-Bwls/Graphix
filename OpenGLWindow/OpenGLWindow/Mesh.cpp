@@ -40,6 +40,17 @@ void Mesh::InitialiseQuad()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
+	verts[0].normal = { 0,1,0,0 };
+	verts[1].normal = { 0,1,0,0 };
+	verts[2].normal = { 0,1,0,0 };
+	verts[3].normal = { 0,1,0,0 };
+	verts[4].normal = { 0,1,0,0 };
+	verts[5].normal = { 0,1,0,0 };
+
+	// enable second element as normal
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)16);
+
 	verts[0].texCoord = { 0, 1 }; // bottom left
 	verts[1].texCoord = { 1, 1 }; // bottom right
 	verts[2].texCoord = { 0, 0 }; // top left

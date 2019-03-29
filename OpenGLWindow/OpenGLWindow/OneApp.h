@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "OBJMesh.h"
+#include"Light.h"
 
 #include "gl_core_4_4.h"
 #include <GLFW/glfw3.h>

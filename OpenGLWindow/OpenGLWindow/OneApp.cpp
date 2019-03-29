@@ -61,8 +61,10 @@ bool OneApp::StartUp()
 	m_Cam->MakePerspective(glm::pi<float>() * 0.25f,
 		16 / 9.0f, 0.1f, 1000.0f);
 
-	m_Shader.loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/textured.vert");
-	m_Shader.loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/textured.frag");
+	m_Light = new Light();
+
+	m_Shader.loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/phong.vert");
+	m_Shader.loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/phong.frag");
 
 	if (!(m_Shader.link()))
 	{
@@ -105,6 +107,7 @@ bool OneApp::Update()
 	// our game logic and update code goes here!
 	// so does our render code!
 	m_Cam->Update(deltaTime);
+	m_Light->m_Direction = glm::normalize(vec3(cos(currTime * 2), sin(currTime * 2), 0));
 
 	return true;
 }
@@ -135,6 +138,8 @@ bool OneApp::Draw()
 
 	m_Shader.bind();
 	m_Shader.bindUniform("ProjectionViewModel", m_Cam->GetProjectionView() * m_QuadTransform);
+	m_Shader.bindUniform("LightDirection", m_Light->m_Direction);
+	m_Shader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_BunnyTransform)));
 
 	//m_QuadMesh.Draw();
 	m_BunnyMesh.draw();
@@ -148,6 +153,7 @@ bool OneApp::Draw()
 
 bool OneApp::ShutDown()
 {
+	delete m_Light;
 	delete m_Cam;
 	InputDestroy();
 	Gizmos::destroy();

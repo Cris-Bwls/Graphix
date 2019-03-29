@@ -167,6 +167,7 @@
     <ClCompile Include="OBJMesh.cpp" />
     <ClCompile Include="OneApp.cpp" />
     <ClCompile Include="OpenGLWindow.cpp" />
+    <ClCompile Include="PhongShader.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
@@ -180,6 +181,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OBJMesh.h" />
     <ClInclude Include="OneApp.h" />
+    <ClInclude Include="PhongShader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tiny_obj_loader.h" />
