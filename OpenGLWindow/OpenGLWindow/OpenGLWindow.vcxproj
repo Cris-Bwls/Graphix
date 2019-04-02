@@ -23,7 +23,7 @@
     <ProjectGuid>{BF62FCAD-FC48-4E6B-8A6F-FC2B194DC00E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>OpenGLWindow</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -114,7 +114,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dep\glfw\lib-vc2015\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dep\glfw\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -167,6 +167,7 @@
     <ClCompile Include="OBJMesh.cpp" />
     <ClCompile Include="OneApp.cpp" />
     <ClCompile Include="OpenGLWindow.cpp" />
+    <ClCompile Include="LitShader.cpp" />
     <ClCompile Include="PhongShader.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OBJMesh.h" />
     <ClInclude Include="OneApp.h" />
+    <ClInclude Include="LitShader.h" />
     <ClInclude Include="PhongShader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />

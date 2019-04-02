@@ -51,6 +51,9 @@
     <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LitShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PhongShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LitShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PhongShader.h">

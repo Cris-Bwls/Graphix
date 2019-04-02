@@ -18,7 +18,7 @@ enum class eShaderStage : unsigned int {
 	GEOMETRY,
 	FRAGMENT,
 
-	SHADER_STAGE_Count,
+	Count,
 };
 
 // individual sharable shader stages
@@ -70,6 +70,7 @@ public:
 
 	int getUniform(const char* name);
 
+	void Use();
 	void bindUniform(int ID, int value);
 	void bindUniform(int ID, float value);
 	void bindUniform(int ID, const glm::vec2& value);
@@ -109,7 +110,7 @@ private:
 
 	unsigned int	m_program;
 
-	std::shared_ptr<Shader> m_shaders[(int)eShaderStage::SHADER_STAGE_Count];
+	std::shared_ptr<Shader> m_shaders[(int)eShaderStage::Count];
 
 	char*			m_lastError;
 };

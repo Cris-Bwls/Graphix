@@ -1,9 +1,8 @@
 #pragma once
 #include "Application.h"
-#include "Shader.h"
+#include "LitShader.h"
 #include "Mesh.h"
 #include "OBJMesh.h"
-#include"Light.h"
 
 #include "gl_core_4_4.h"
 #include <GLFW/glfw3.h>
@@ -26,7 +25,7 @@ private:
 	FreeCam* m_Cam;
 	GLFWwindow* m_Window;
 
-	ShaderProgram m_Shader;
+	LitShader* m_Shader;
 
 	OBJMesh m_BunnyMesh;
 	glm::mat4 m_BunnyTransform;

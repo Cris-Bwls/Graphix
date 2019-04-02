@@ -1,10 +1,9 @@
 #pragma once
-#include "Shader.h"
+#include "LitShader.h"
 class PhongShader :
-	public ShaderProgram
+	public LitShader
 {
 public:
 	PhongShader();
-	~PhongShader();
 };
 

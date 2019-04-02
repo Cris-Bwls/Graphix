@@ -8,7 +8,7 @@ Shader::~Shader() {
 }
 
 bool Shader::loadShader(unsigned int stage, const char* filename) {
-	assert(stage > 0 && stage < (int)eShaderStage::SHADER_STAGE_Count);
+	assert(stage > 0 && stage < (int)eShaderStage::Count);
 
 	m_stage = stage;
 
@@ -53,7 +53,7 @@ bool Shader::loadShader(unsigned int stage, const char* filename) {
 }
 
 bool Shader::createShader(unsigned int stage, const char* string) {
-	assert(stage > 0 && stage < (int)eShaderStage::SHADER_STAGE_Count);
+	assert(stage > 0 && stage < (int)eShaderStage::Count);
 
 	m_stage = stage;
 
@@ -90,13 +90,13 @@ ShaderProgram::~ShaderProgram() {
 }
 
 bool ShaderProgram::loadShader(unsigned int stage, const char* filename) {
-	assert(stage > 0 && stage < (int)eShaderStage::SHADER_STAGE_Count);
+	assert(stage > 0 && stage < (int)eShaderStage::Count);
 	m_shaders[stage] = std::make_shared<Shader>();
 	return m_shaders[stage]->loadShader(stage, filename);
 }
 
 bool ShaderProgram::createShader(unsigned int stage, const char* string) {
-	assert(stage > 0 && stage < (int)eShaderStage::SHADER_STAGE_Count);
+	assert(stage > 0 && stage < (int)eShaderStage::Count);
 	m_shaders[stage] = std::make_shared<Shader>();
 	return m_shaders[stage]->createShader(stage, string);
 }
@@ -310,6 +310,11 @@ bool ShaderProgram::bindUniform(const char* name, int count, const glm::mat4* va
 	}
 	glUniformMatrix4fv(i, count, GL_FALSE, (float*)value);
 	return true;
+}
+
+void ShaderProgram::Use()
+{
+	glUseProgram(m_program);
 }
 
 void ShaderProgram::bindUniform(int ID, int value) {

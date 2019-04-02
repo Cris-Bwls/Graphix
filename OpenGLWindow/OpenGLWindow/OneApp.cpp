@@ -7,6 +7,8 @@
 
 #include"FreeCam.h"
 
+#include "PhongShader.h"
+
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
@@ -61,14 +63,36 @@ bool OneApp::StartUp()
 	m_Cam->MakePerspective(glm::pi<float>() * 0.25f,
 		16 / 9.0f, 0.1f, 1000.0f);
 
-	m_Light = new Light();
+	m_Shader = new PhongShader();
+	m_Shader->AddLight(
+		{
+			{40,40,40},			// Pos
+			vec4(1.0f) * 2.0f,	// Diffuse
+			vec4(1.0f) * 2.0f	// Spec
+		}
+	);
+	m_Shader->AddLight(
+		{
+			{0,20,-20}, // Pos
+			vec4(1.0f), // Diffuse
+			vec4(1.0f)  // Spec
+		}
+	);
+	m_Shader->AddLight(
+		{
+			{30,0,0},			// Pos
+			vec4(1.0f) * .5f,	// Diffuse
+			vec4(1.0f) * .5f	// Spec
+		}
+	);
+	//m_Shader->loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/phong.vert");
+	//m_Shader->loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/phong.frag");
 
-	m_Shader.loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/phong.vert");
-	m_Shader.loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/phong.frag");
+	m_Shader->Use();
 
-	if (!(m_Shader.link()))
+	if (!(m_Shader->link()))
 	{
-		printf("Shader Error: %s\n", m_Shader.getLastError());
+		printf("Shader Error: %s\n", m_Shader->getLastError());
 		return false;
 	}
 
@@ -107,7 +131,7 @@ bool OneApp::Update()
 	// our game logic and update code goes here!
 	// so does our render code!
 	m_Cam->Update(deltaTime);
-	m_Light->m_Direction = glm::normalize(vec3(cos(currTime * 2), sin(currTime * 2), 0));
+	//m_Light->m_Direction = glm::normalize(vec3(cos(currTime * 2), sin(currTime * 2), 0));
 
 	return true;
 }
@@ -136,10 +160,11 @@ bool OneApp::Draw()
 			i == 10 ? white : black);
 	}
 
-	m_Shader.bind();
-	m_Shader.bindUniform("ProjectionViewModel", m_Cam->GetProjectionView() * m_QuadTransform);
-	m_Shader.bindUniform("LightDirection", m_Light->m_Direction);
-	m_Shader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_BunnyTransform)));
+	m_Shader->bind();
+	m_Shader->SetModelMatrix(m_QuadTransform);
+	m_Shader->SetViewMatrix(m_Cam->GetView());
+	m_Shader->SetMVP(m_Cam->GetProjectionView() * m_QuadTransform);
+	m_Shader->SetNormalMatrix(glm::inverseTranspose(glm::mat3(m_BunnyTransform)));
 
 	//m_QuadMesh.Draw();
 	m_BunnyMesh.draw();
@@ -153,8 +178,8 @@ bool OneApp::Draw()
 
 bool OneApp::ShutDown()
 {
-	delete m_Light;
 	delete m_Cam;
+	delete m_Shader;
 	InputDestroy();
 	Gizmos::destroy();
 	glfwTerminate();
