@@ -64,37 +64,48 @@ bool OneApp::StartUp()
 		16 / 9.0f, 0.1f, 1000.0f);
 
 	m_Shader = new PhongShader();
-	m_Shader->AddLight(
-		{
-			{40,40,40},			// Pos
-			vec4(1.0f) * 2.0f,	// Diffuse
-			vec4(1.0f) * 2.0f	// Spec
-		}
-	);
-	m_Shader->AddLight(
-		{
-			{0,20,-20}, // Pos
-			vec4(1.0f), // Diffuse
-			vec4(1.0f)  // Spec
-		}
-	);
-	m_Shader->AddLight(
-		{
-			{30,0,0},			// Pos
-			vec4(1.0f) * .5f,	// Diffuse
-			vec4(1.0f) * .5f	// Spec
-		}
-	);
+	//m_Shader->Use();
+	//m_Shader->SetLightCount(1);
+	//m_Shader->SetLight(0,
+	//	{
+	//		{0,0,1},			// Pos
+	//		vec4(1) * .5f,	// Diffuse
+	//		vec4(1) * .5f	// Spec
+	//	}
+	//);
+
+	//m_Shader->Use();
+	//m_Shader->AddLight(
+	//	{
+	//		{0,0,1},			// Pos
+	//		vec4(1.0f) * 0.5f,	// Diffuse
+	//		vec4(1.0f) * 2.0f	// Spec
+	//	}
+	//);
+	//m_Shader->AddLight(
+	//	{
+	//		{0,20,-20}, // Pos
+	//		vec4(1.0f), // Diffuse
+	//		vec4(1.0f)  // Spec
+	//	}
+	//);
+	//m_Shader->AddLight(
+	//	{
+	//		{30,0,0},			// Pos
+	//		vec4(1.0f) * .5f,	// Diffuse
+	//		vec4(1.0f) * .5f	// Spec
+	//	}
+	//);
 	//m_Shader->loadShader((unsigned int)eShaderStage::VERTEX, "./shaders/phong.vert");
 	//m_Shader->loadShader((unsigned int)eShaderStage::FRAGMENT, "./shaders/phong.frag");
 
-	m_Shader->Use();
+	//m_Shader->Use();
 
-	if (!(m_Shader->link()))
-	{
-		printf("Shader Error: %s\n", m_Shader->getLastError());
-		return false;
-	}
+	//if (!(m_Shader->link()))
+	//{
+	//	printf("Shader Error: %s\n", m_Shader->getLastError());
+	//	return false;
+	//}
 
 	//m_QuadMesh.InitialiseQuad();
 	m_QuadTransform =
@@ -131,7 +142,6 @@ bool OneApp::Update()
 	// our game logic and update code goes here!
 	// so does our render code!
 	m_Cam->Update(deltaTime);
-	//m_Light->m_Direction = glm::normalize(vec3(cos(currTime * 2), sin(currTime * 2), 0));
 
 	return true;
 }
@@ -160,14 +170,22 @@ bool OneApp::Draw()
 			i == 10 ? white : black);
 	}
 
-	m_Shader->bind();
+	//m_Shader->Use();
+	//m_Shader->SetLightCount(1);
+	//m_Shader->SetLightPos(0, vec3(0,0,0));
+	//m_Shader->SetLightDiffuse(0, vec4(1,1,1,1));
+	//m_Shader->SetLightSpecular(0, vec4(1,1,1,1));
+
+	//m_Shader->Use();
+	//m_Shader->SetLight(0, { {10.0f,10.0f,10.0f}, vec4(1), vec4(1) });
+
 	m_Shader->SetModelMatrix(m_QuadTransform);
 	m_Shader->SetViewMatrix(m_Cam->GetView());
 	m_Shader->SetMVP(m_Cam->GetProjectionView() * m_QuadTransform);
-	m_Shader->SetNormalMatrix(glm::inverseTranspose(glm::mat3(m_BunnyTransform)));
+	//m_Shader->SetNormalMatrix(glm::inverseTranspose(glm::mat3(m_BunnyTransform)));
 
-	//m_QuadMesh.Draw();
 	m_BunnyMesh.draw();
+	//m_QuadMesh.Draw();
 
 	Gizmos::draw(m_Cam->GetProjectionView());
 

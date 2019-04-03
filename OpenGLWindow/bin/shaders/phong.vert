@@ -17,7 +17,9 @@ out vec2 uv;
 out vec4 tangent;
 
 void main() {
-    vertNormal = NormalMatrix * Normal.xyz;
+
+	mat3 rot = mat3(Model);
+    vertNormal = normalize(rot*Normal.xyz);
 
     vec4 pos = MVP * Position;
     gl_Position = pos;

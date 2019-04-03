@@ -36,13 +36,16 @@ uniform float specularPower = 16.0;
 uniform float lightAmbient = 0.0;
 
 uniform LightInfo lights[8];
-uniform uint lightCount;
+uniform int lightCount;
 
 out vec4 fragColor;
 
-void main() {
+void main() 
+{
+
 	vec3 normal = normalize(vertNormal);
-	if((textureFlags & 0x2) > 0) {
+	if((textureFlags & 0x2) > 0) 
+	{
 		// make tangent basis matrix
 		mat3 tbn;
 		tbn[0] = tangent.xyz;
@@ -69,16 +72,17 @@ void main() {
 	// https://en.wikipedia.org/wiki/Phong_reflection_model
 
 	// Calc for all lights
-	for(int i = 0; i < lightCount; ++i) {
+	for(int i = 0; i < lightCount; ++i) 
+	{
 		// this light
 		LightInfo light = lights[i];
-
+	
 		// direction from light
 		vec3 Lm = normalize(light.pos - vertPos);
 		float lambertTerm = clamp(dot(Lm, normal), 0.0, 1.0);
-
-		vec4 diffusePart = (vec4(Kd, opacity) * texColor ) * lambertTerm * light.diffuse;
-
+	
+		vec4 diffusePart = (vec4(Kd, opacity) * texColor ) * lambertTerm * light.diffuse;		
+	
 		vec3 Rm = reflect(-Lm, normal);
 		float specularTerm = pow(max(dot(Rm, viewDir), 0.0), specularPower);
 		vec4 specularPart = (vec4(Ks,1.0) * specTex) * specularTerm * light.specular;

@@ -18,8 +18,8 @@ public:
 	struct Light
 	{
 		vec3 position;
-		vec3 diffuse;
-		vec3 specular;
+		vec4 diffuse;
+		vec4 specular;
 	};
 
 	bool SetLightCount(unsigned int count);
@@ -27,8 +27,8 @@ public:
 	bool AddLight(LitShader::Light const& info, unsigned int* pGivenIndex = nullptr);
 
 	void SetLightPos(unsigned int index, vec3 const& pos);
-	void SetLightDiffuse(unsigned int index, vec3 const& diffuse);
-	void SetLightSpecular(unsigned int index, vec3 const& specular);
+	void SetLightDiffuse(unsigned int index, vec4 const& diffuse);
+	void SetLightSpecular(unsigned int index, vec4 const& specular);
 
 	void SetAmbientLight(float ambient);
 
