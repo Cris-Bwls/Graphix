@@ -10,5 +10,5 @@ PhongShader::PhongShader() : LitShader()
 
 	SetLightCount(1);
 
-	SetLight(0, { {10.0f,10.0f,10.0f}, vec4(1.0f), vec4(1.0f) });
+	SetLight(0, { {10.0f,10.0f,10.0f}, vec4(1), vec4(1) });
 }

@@ -64,24 +64,15 @@ bool OneApp::StartUp()
 		16 / 9.0f, 0.1f, 1000.0f);
 
 	m_Shader = new PhongShader();
-	//m_Shader->Use();
-	//m_Shader->SetLightCount(1);
-	//m_Shader->SetLight(0,
-	//	{
-	//		{0,0,1},			// Pos
-	//		vec4(1) * .5f,	// Diffuse
-	//		vec4(1) * .5f	// Spec
-	//	}
-	//);
-
-	//m_Shader->Use();
-	//m_Shader->AddLight(
-	//	{
-	//		{0,0,1},			// Pos
-	//		vec4(1.0f) * 0.5f,	// Diffuse
-	//		vec4(1.0f) * 2.0f	// Spec
-	//	}
-	//);
+	m_Shader->SetLightCount(2);
+	m_Shader->SetLightDiffuse(0, vec4(1,0,0,1));
+	m_Shader->SetLight(1,
+		{
+			{0,0,1},			// Pos
+			vec4(0, 0, 1, 1),	// Diffuse
+			vec4(1.0f) * 2.0f	// Spec
+		}
+	);
 	//m_Shader->AddLight(
 	//	{
 	//		{0,20,-20}, // Pos
@@ -116,6 +107,9 @@ bool OneApp::StartUp()
 		0,0,0,1
 	};
 
+	m_Shader->SetLightPos(0, vec3(m_QuadTransform[3]) + vec3(0, 3, 10));
+	m_Shader->SetLightPos(1, vec3(m_QuadTransform[3]) + vec3(0, 3, -10));
+
 	if (!m_BunnyMesh.load("./soulspear/soulspear.obj", true, true))
 		return false;
 
@@ -142,6 +136,9 @@ bool OneApp::Update()
 	// our game logic and update code goes here!
 	// so does our render code!
 	m_Cam->Update(deltaTime);
+	//vec3 vertOffset = vec3(0, 3, 0);
+	//m_Shader->SetLightPos(0, vec3(m_QuadTransform[3]) + vertOffset + (vec3(1, 0, 0) * sinf(currTime * 0.5f)));
+	//m_Shader->SetLightPos(1, vec3(m_QuadTransform[3]) + vertOffset + (vec3(0, 0, 1) * sinf(currTime * 0.5f)));
 
 	return true;
 }
