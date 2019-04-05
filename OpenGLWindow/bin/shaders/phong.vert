@@ -20,6 +20,7 @@ void main() {
 
 	mat3 rot = mat3(Model);
     vertNormal = normalize(rot*Normal.xyz);
+	//vertNormal = inverse(NormalMatrix) * Normal.xyz;
 
     vec4 pos = MVP * Position;
     gl_Position = pos;

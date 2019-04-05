@@ -107,10 +107,14 @@ bool OneApp::StartUp()
 		0,0,0,1
 	};
 
+	// Scales the object
+	float scale = 5;
+	m_QuadTransform[3][3] = m_QuadTransform[3][3] / scale;
+
 	m_Shader->SetLightPos(0, vec3(m_QuadTransform[3]) + vec3(0, 3, 10));
 	m_Shader->SetLightPos(1, vec3(m_QuadTransform[3]) + vec3(0, 3, -10));
 
-	if (!m_BunnyMesh.load("./soulspear/soulspear.obj", true, true))
+	if (!m_BunnyMesh.load("./object/engine/model.obj", true, true))
 		return false;
 
 	m_BunnyTransform = m_QuadTransform;
