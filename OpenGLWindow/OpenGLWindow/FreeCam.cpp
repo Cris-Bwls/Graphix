@@ -10,6 +10,7 @@
 
 #define MOVE 5.0f
 #define SMALL 0.05f
+#define SCROLL 10.0f
 
 
 FreeCam::FreeCam()
@@ -45,12 +46,13 @@ void FreeCam::Update(float fDeltaTime)
 		SetPosition(vec3(m_Transform[3]) + (vec3(m_Transform[0]) * MOVE * fDeltaTime));
 	}
 
+	//SCROLL
 	double newScroll = input->getMouseScroll();
 	double scrollDiff = scroll - newScroll;
 	scroll = newScroll;
 
 	if (abs(scrollDiff) > 0)
-		SetPosition(vec3(m_Transform[3]) + (vec3(m_Transform[2]) * MOVE * (float)scrollDiff) * fDeltaTime);
+		SetPosition(vec3(m_Transform[3]) + (vec3(m_Transform[2]) * SCROLL * (float)scrollDiff) * fDeltaTime);
 
 	//ROTATERY STUFF
 	int x, y;
