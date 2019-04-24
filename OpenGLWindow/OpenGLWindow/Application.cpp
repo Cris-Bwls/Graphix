@@ -3,15 +3,17 @@
 
 
 
-Application::Application()
-{
-}
+Application::Application(){}
+Application::~Application(){}
 
-
-Application::~Application()
-{
-}
-
+/*
+	@brief Runs the application
+	@param name of application
+	@param width of window
+	@param height of window
+	@param if window should be fullscreen
+	@return if ran successfully
+*/
 bool Application::Run(char const* csName, int nWidth, int nHeight, bool bFullScreen)
 {
 	m_csName = csName;

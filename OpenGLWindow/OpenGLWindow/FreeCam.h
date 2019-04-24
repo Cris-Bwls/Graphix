@@ -7,12 +7,16 @@ public:
 	FreeCam();
 	~FreeCam();
 
+	/*
+		@brief Overload of baseclass Update
+		@param deltaTime
+	*/
 	void Update(float fDeltaTime);
 
 private:
 
-	int mouseX;
-	int mouseY;
-	double scroll;
+	int m_mouseX;
+	int m_mouseY;
+	double m_scroll;
 };
 
